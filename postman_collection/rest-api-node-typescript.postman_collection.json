@@ -1,0 +1,142 @@
+{
+	"info": {
+		"_postman_id": "9153952d-ee3f-48bf-9425-71778ff11156",
+		"name": "WeatherData",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3998057"
+	},
+	"item": [
+		{
+			"name": "Weather Stations For State",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"StateType\": \"TX\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/WeatherData/WeatherStationsForState",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"WeatherData",
+						"WeatherStationsForState"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Current Conditions",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Latitude\": 33.43549,\r\n    \"Longitude\": -94.07567\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/WeatherData/CurrentConditions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"WeatherData",
+						"CurrentConditions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Current Conditions For Station",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Station\": {\r\n        \"Name\": \"Logan-Cache Airport\",\r\n        \"Latitude\": 1355.1408,\r\n        \"Longitude\": -111.85187,\r\n        \"StationIdentifier\": \"KLGU\",\r\n        \"ElevationInMeters\": 1355.1408\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/WeatherData/CurrentConditionsForStation",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"WeatherData",
+						"CurrentConditionsForStation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Forecast",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Latitude\": 33.43549,\r\n    \"Longitude\": -94.07567\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/WeatherData/Forecast",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"WeatherData",
+						"Forecast"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

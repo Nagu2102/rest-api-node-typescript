@@ -1,3 +1,4 @@
+import { ForecastResponse } from './ForecastResponse';
 import { WeatherStation } from './WeatherStation';
 
 export interface CurrentConditionsResponse {
@@ -23,4 +24,5 @@ export interface CurrentConditionsResponse {
     HeatIndexFahrenheit: number | null;
     RawData: string;
     Station: WeatherStation;
+    ForeCastList: ForecastResponse | null;
 }

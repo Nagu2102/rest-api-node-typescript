@@ -26,6 +26,9 @@ class WeatherDataService {
         // The station list is a property in the response called "features"
         const stations = observationResponseText.data.features;
 
+        // Get the forecast Url from the response
+        const forecastUrl = redirectResponseText.data.properties.forecast;
+
         // Ensure we have a list of stations
         if (stations && stations.length > 0) {
             // Loop over the list of stations
@@ -59,9 +62,16 @@ class WeatherDataService {
                 }
 
                 // If we have current conditions, return it. Otherwise, continue through loop.
-                if (response) {
+                if (response && response.RelativeHumidityPercent) {
                     break;
                 }
+            }
+        }
+        if (response?.ForeCastList) {
+            try {
+                response.ForeCastList = await this.GetForecastUrlAsync(forecastUrl);
+            } catch (error) {
+                console.log(error);
             }
         }
 
@@ -106,6 +116,44 @@ class WeatherDataService {
         return list;
     }
 
+    async GetForecastUrlAsync(forecastUrl: string): Promise<ForecastResponse> {
+        // Get the gridpoint information for the given latitude and longitude.
+        const axios = require('axios');
+        // Load the forecast Url
+        const forecastResponseText = await axios.get(forecastUrl);
+
+        // Parse the json response
+        const json2 = forecastResponseText.data;
+
+        // Instantiate a new ForecastResponse object and fill it with the data received
+        const response: ForecastResponse = {
+            Periods: [],
+            ElevationInMeters: json2.properties.elevation.value,
+            LastUpdatedDate: json2.properties.updated,
+            RawData: ''
+        };
+
+        json2.properties.periods.forEach(p => {
+            const period: ForecastPeriod = {
+                Name: p.name,
+                StartTime: p.startTime,
+                EndTime: p.endTime,
+                IsDayTime: p.isDaytime,
+                TemperatureInFahrenheit: p.temperature,
+                WindSpeed: p.windSpeed,
+                WindDirection: p.windDirection,
+                ForecastShort: p.shortForecast,
+                ForecastLong: p.detailedForecast
+            };
+
+            response.Periods.push(period);
+        });
+
+        response.RawData = JSON.stringify(forecastResponseText.data);
+
+        return response;
+    }
+
     async GetForecastAsync(lat: number, lng: number): Promise<ForecastResponse> {
         // Get the gridpoint information for the given latitude and longitude.
         const axios = require('axios');
@@ -125,8 +173,6 @@ class WeatherDataService {
             Periods: [],
             ElevationInMeters: json2.properties.elevation.value,
             LastUpdatedDate: json2.properties.updated,
-            Latitude: lat,
-            Longitude: lng,
             RawData: ''
         };
 
@@ -224,7 +270,8 @@ class WeatherDataService {
                 // tslint:disable-next-line:no-null-keyword
                 HeatIndexFahrenheit: null,
                 RawData: '',
-                Station: station
+                Station: station,
+                ForeCastList: {} as ForecastResponse
             };
 
             // Convert celsius to fahrenheit
